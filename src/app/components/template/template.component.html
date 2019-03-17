@@ -7,12 +7,15 @@
         <div class="form-group row">
             <label class="col-2 col-form-label">Nombre</label>
             <div class="col-8">
-                <input class="form-control" type="text" placeholder="Nombre" name='nombre' required minlength="5" [(ngModel)]="usuario.name" #nombre="ngModel">
+                <input class="form-control" [ngClass]="{ 'is-invalid': (nombre.status !== 'VALID' && nombre.touched) , 'is-valid': nombre.status === 'VALID' }" type="text" placeholder="Nombre" name='nombre' required minlength="5" [(ngModel)]="usuario.name" #nombre="ngModel">
 
-                <div *ngIf="nombre?.errors?.required && nombre?.touched">
+                <div class="valid-feedback" *ngIf="nombre.status === 'VALID'">
+                    Looks good!
+                </div>
+                <div *ngIf="nombre?.errors?.required && nombre?.touched" class="invalid-feedback">
                     Campo Requerido
                 </div>
-                <div *ngIf="nombre?.errors?.minlength?.requiredLength && nombre?.touched ">
+                <div *ngIf="nombre?.errors?.minlength?.requiredLength && nombre?.touched " class="invalid-feedback">
                     Minimo de caracteres requeridos es: {{ nombre?.errors?.minlength?.requiredLength }}
                 </div>
             </div>
@@ -23,12 +26,16 @@
             <label class="col-2 col-form-label">Apellido</label>
             <div class="col-8">
 
-                <input class="form-control" type="text" placeholder="Apellido" name='apellido' required minlength="5" [(ngModel)]="usuario.apellido" #apellido="ngModel">
+                <input class="form-control" [ngClass]="{ 'is-invalid': (apellido.status !== 'VALID' && apellido.touched) , 'is-valid': apellido.status === 'VALID' }" type="text" placeholder="Apellido" name='apellido' required minlength="5" [(ngModel)]="usuario.apellido"
+                    #apellido="ngModel">
 
-                <div *ngIf="apellido?.errors?.required && apellido?.touched">
+                <div class="valid-feedback" *ngIf="apellido.status === 'VALID'">
+                    Looks good!
+                </div>
+                <div *ngIf="apellido?.errors?.required && apellido?.touched" class="invalid-feedback">
                     Campo Requerido
                 </div>
-                <div *ngIf="apellido?.errors?.minlength?.requiredLength && apellido?.touched">
+                <div *ngIf="apellido?.errors?.minlength?.requiredLength && apellido?.touched" class="invalid-feedback">
                     Minimo de caracteres requeridos es: {{ apellido?.errors?.minlength?.requiredLength }}
                 </div>
             </div>
@@ -40,15 +47,18 @@
         <label class="col-2 col-form-label">Correo</label>
         <div class="col-md-8">
 
-            <input class="form-control" type="email" placeholder="Correo electrónico" #mail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name='email' required [(ngModel)]="usuario.email" #mail="ngModel">
+            <input class="form-control" [ngClass]="{ 'is-invalid': (mail.status !== 'VALID' && mail.touched) , 'is-valid': mail.status === 'VALID' }" type="email" placeholder="Correo electrónico" #mail="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name='email'
+                required [(ngModel)]="usuario.email" #mail="ngModel">
 
-            <div *ngIf="mail?.errors?.required && mail?.touched">
+            <div class="valid-feedback" *ngIf="mail.status === 'VALID'">
+                Looks good!
+            </div>
+            <div *ngIf="mail?.errors?.required && mail?.touched" class="invalid-feedback">
                 Campo Requerido
             </div>
-            <div *ngIf="mail?.errors?.pattern?.requiredPattern && mail?.touched">
+            <div *ngIf="mail?.errors?.pattern?.requiredPattern && mail?.touched" class="invalid-feedback">
                 No cumple con el formato de un email
             </div>
-
         </div>
     </div>
 
