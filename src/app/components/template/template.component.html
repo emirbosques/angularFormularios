@@ -26,8 +26,8 @@
             <label class="col-2 col-form-label">Apellido</label>
             <div class="col-8">
 
-                <input class="form-control" [ngClass]="{ 'is-invalid': (apellido.status !== 'VALID' && apellido.touched) , 'is-valid': apellido.status === 'VALID' }" type="text" placeholder="Apellido" name='apellido' required minlength="5" [(ngModel)]="usuario.apellido"
-                    #apellido="ngModel">
+                <input class="form-control" [ngClass]="{ 'is-invalid': (apellido.status !== 'VALID' && apellido.touched) , 
+                'is-valid': apellido.status === 'VALID' }" type="text" placeholder="Apellido" name='apellido' required minlength="5" [(ngModel)]="usuario.apellido" #apellido="ngModel">
 
                 <div class="valid-feedback" *ngIf="apellido.status === 'VALID'">
                     Looks good!
@@ -63,14 +63,56 @@
     </div>
 
 
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Pais:</label>
+        <div class="col-md-8">
+            <select [(ngModel)]="usuario.pais" class="form-control" name="pais" required>
+            <option value="">Select a country</option>
+            <option *ngFor="let p of paises" [value]="p.cod" >{{p.name | titlecase}}</option>
+            </select>
+        </div>
+    </div>
 
+
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Sexo:</label>
+        <div class="col-md-8">
+
+            <div class="form-check form-check-inline" *ngFor="let s of sexo">
+                <input class="form-check-input" type="radio" [(ngModel)]="usuario.sexo" name="sexo" [value]="s.cod" required>
+                <label class="form-check-label" for="inlineRadio1">{{s.name}}</label>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <div class="col-md-8 offset-2">
+            <div class="form-check">
+                <input class="form-check-input" [(ngModel)]="usuario.conditions" name="conditions" type="checkbox" required>
+                <label class="form-check-label" for="defaultCheck1">
+                        Terms and Conditions
+                      </label>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- BOTON -->
     <div class="form-group row">
         <label class="col-2 col-form-label">&nbsp;</label>
         <div class="input-group col-md-8">
-            <button type="submit" class="btn btn-outline-primary">
+            <button type="submit" class="btn btn-outline-primary" [disabled]="!form.valid">
         Guardar
       </button>
         </div>
     </div>
 
 </form>
+
+<div>
+    <p>{{usuario | json}}</p>
+</div>
