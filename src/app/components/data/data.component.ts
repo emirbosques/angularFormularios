@@ -18,7 +18,9 @@ export class DataComponent implements OnInit {
       apellido:''
     },
     correo:'',
-    pasatiempos: []
+    pasatiempos: [],
+    passw1: '',
+    passw2: ''
   };
 
 
@@ -27,7 +29,7 @@ export class DataComponent implements OnInit {
     this.formValidation = new FormGroup({
 
       'nombrecompleto': new FormGroup({
-        'name': new FormControl('', [Validators.required, Validators.minLength(3)]),
+        'name': new FormControl('', [Validators.required, Validators.minLength(3), this.noSameName]),
         'apellido': new FormControl('', [Validators.required, Validators.minLength(5)]),
       }),
       'correo': new FormControl('', [Validators.required, Validators.email, 
@@ -35,8 +37,16 @@ export class DataComponent implements OnInit {
 
       'pasatiempos': new FormArray([ 
         new FormControl('CINE', Validators.required)
-      ])
+      ]),
+      'passw1': new FormControl('', Validators.required),
+      'passw2': new FormControl()
     });
+
+    this.formValidation.controls['passw2'].setValidators([
+      Validators.required, 
+      this.noSamePassw.bind(this.formValidation)
+    ]);
+
 
   }
 
@@ -46,6 +56,32 @@ export class DataComponent implements OnInit {
      * el objeto deberia tener la misma estructura definida en la validacion FormGroup
      */
     // this.formValidation.setValue();
+  }
+
+  /**
+   * Funcion para validacion personalizada.
+   * 
+   */
+  noSameName( control: FormControl ): {[s:string]:boolean} {
+    let val: any = control.value;
+    if ( val === 'emir'){
+      return{
+        samename: true
+      }
+    }
+    return null;
+  }
+
+  noSamePassw( control: FormControl ): {[s:string]:boolean} {
+    let val: any = control.value;
+    let forma: any = this;
+    
+    if ( val !==  forma.controls['passw1'].value ){
+      return{
+        samename: true
+      }
+    }
+    return null;
   }
 
   addPasatiempo(){
