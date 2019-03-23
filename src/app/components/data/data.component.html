@@ -2,13 +2,13 @@
 <hr>
 <form [formGroup]="formValidation" (ngSubmit)="saveChanges()" novalidate="novalidate">
 
-    <div>
+    <div formGroupName="nombrecompleto">
 
         <div class="form-group row">
             <label class="col-2 col-form-label">Nombre</label>
             <div class="col-8">
 
-                <input class="form-control" type="text" placeholder="Nombre">
+                <input class="form-control" formControlName="name" type="text" placeholder="Nombre">
             </div>
         </div>
 
@@ -16,7 +16,7 @@
             <label class="col-2 col-form-label">Apellido</label>
             <div class="col-8">
 
-                <input class="form-control" type="text" placeholder="Apellido">
+                <input class="form-control" type="text" formControlName="apellido" placeholder="Apellido">
             </div>
         </div>
 
@@ -26,9 +26,27 @@
         <label class="col-2 col-form-label">Correo</label>
         <div class="col-md-8">
 
-            <input class="form-control" type="email" placeholder="Correo electrónico">
+            <input class="form-control" type="email" formControlName="correo" placeholder="Correo electrónico">
         </div>
     </div>
+
+
+
+    <!-- PASATIEMPOS ARRAY  formArrayName-->
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Pasatiempos
+          <button type="button" class="btn btn-primary" (click)="addPasatiempo()">
+            Add +
+          </button>
+        </label>
+        <div class="col-md-8" formArrayName="pasatiempos">
+
+            <input *ngFor="let p of formValidation.controls['pasatiempos'].controls; let i = index" [formControlName]="i" type="text" class="form-control" style="margin-top: 5px;">
+
+        </div>
+    </div>
+
+
 
 
 
@@ -40,5 +58,7 @@
       </button>
         </div>
     </div>
+
+    {{formValidation.valid}}
 
 </form>
