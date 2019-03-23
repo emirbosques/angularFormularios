@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs/internal/Observable';
+
 
 @Component({
   selector: 'app-data',
@@ -19,6 +21,7 @@ export class DataComponent implements OnInit {
     },
     correo:'',
     pasatiempos: [],
+    username: '',
     passw1: '',
     passw2: ''
   };
@@ -38,10 +41,18 @@ export class DataComponent implements OnInit {
       'pasatiempos': new FormArray([ 
         new FormControl('CINE', Validators.required)
       ]),
+      // Validacion Asyncrona
+      'username': new FormControl('', Validators.required, this.checkUser.bind(this)) ,
+
       'passw1': new FormControl('', Validators.required),
       'passw2': new FormControl()
     });
 
+    /**
+     * Se aplica el BIND en la funcion noSamePassw
+     * Ya que dentro de la misma el THIS esta fuera del scope
+     * y con esto se crea el vinculo para leer el dato y hacer la validacion.  
+     */    
     this.formValidation.controls['passw2'].setValidators([
       Validators.required, 
       this.noSamePassw.bind(this.formValidation)
@@ -57,10 +68,29 @@ export class DataComponent implements OnInit {
      */
     // this.formValidation.setValue();
   }
+  
+  /**
+   *  FUNCION PARA VALIDACION ASYNCRONA
+   * @param control 
+   */ 
+  checkUser(control : FormControl): Promise<any>|Observable<any>{
+    console.log(this);
+    let promise = new Promise((resolve, reject)=>{
+      setTimeout(() => {
+        if(control.value === 'goku'){
+          resolve( {exists:true} )
+        }else{
+          reject(null)
+        }
+      }, 2500);
+    });
+    return promise;
+
+  }
+
 
   /**
    * Funcion para validacion personalizada.
-   * 
    */
   noSameName( control: FormControl ): {[s:string]:boolean} {
     let val: any = control.value;
@@ -75,7 +105,7 @@ export class DataComponent implements OnInit {
   noSamePassw( control: FormControl ): {[s:string]:boolean} {
     let val: any = control.value;
     let forma: any = this;
-    
+
     if ( val !==  forma.controls['passw1'].value ){
       return{
         samename: true
