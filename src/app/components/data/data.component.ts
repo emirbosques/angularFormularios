@@ -59,6 +59,35 @@ export class DataComponent implements OnInit {
     ]);
 
 
+    /**
+     * Escucha de cambios en TODOS los campos del Formulario
+     */
+    this.formValidation.valueChanges.subscribe(data=>{
+      console.log('1-Deteccion values changes in Full Form:',data);
+    });
+
+    /**
+     * Escucha de cambios en un CAMPO ESPECIFICO en el Formulario
+     */
+    this.formValidation.controls['username'].valueChanges.subscribe(data=>{
+      console.log('2-Deteccion values changes CAMPO ESPECIFICO in Form:',data);
+    });
+
+    /**
+     * Escucha de cambios de STATUS en el Formulario
+     */
+    this.formValidation.statusChanges.subscribe(data=>{
+      console.log('3-Deteccion STATUS changes in Full Form:',data);
+    });
+
+    /**
+     * Escucha de cambios de STATUS en un CAMPO ESPECIFICO del Formulario
+     */
+    this.formValidation.controls['username'].statusChanges.subscribe(data=>{
+      console.log('4-Deteccion STATUS changes CAMPO ESPECIFICO in Form:',data);
+    });
+
+
   }
 
   ngOnInit() {
@@ -74,7 +103,6 @@ export class DataComponent implements OnInit {
    * @param control 
    */ 
   checkUser(control : FormControl): Promise<any>|Observable<any>{
-    console.log(this);
     let promise = new Promise((resolve, reject)=>{
       setTimeout(() => {
         if(control.value === 'goku'){
