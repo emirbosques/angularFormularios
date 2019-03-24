@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ErrorHandler } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -80,12 +80,11 @@ export class DataComponent implements OnInit {
         if(control.value === 'goku'){
           resolve( {exists:true} )
         }else{
-          reject(null)
+          resolve( null );
         }
-      }, 2500);
+      }, 1500);
     });
     return promise;
-
   }
 
 
